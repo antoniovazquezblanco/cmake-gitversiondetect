@@ -45,20 +45,19 @@ if(GIT_EXECUTABLE)
     )
   # If no error took place, save the version
   if(NOT GIT_DESCRIBE_ERROR_CODE)
-    set(GITVERSIONDETECT_VERSION ${GIT_DESCRIBE_VERSION})
+    string(REGEX REPLACE "^v" "" GITVERSIONDETECT_VERSION "${GIT_DESCRIBE_VERSION}")
   endif()
 endif()
 
 # Final fallback: Just use a bogus version string that is semantically older
 # than anything else and spit out a warning to the developer.
 if(NOT DEFINED GITVERSIONDETECT_VERSION)
-  set(GITVERSIONDETECT_VERSION v0.0.0-0-unknown)
+  set(GITVERSIONDETECT_VERSION 0.0.0-0-unknown)
   message(WARNING "Failed to determine GITVERSIONDETECT_VERSION from Git tags. Using default version \"${GITVERSIONDETECT_VERSION}\".")
 endif()
 
 # Split the version into major, minor, patch and prerelease
-string(REGEX MATCH "^v([0-9]+)\\.([0-9]+)\\.([0-9]+)(-([0-9]+)-([a-z0-9]+))?"
-  GITVERSIONDETECT_VERSION_MATCH ${GITVERSIONDETECT_VERSION})
+string(REGEX MATCH "^([0-9]+)\\.([0-9]+)\\.([0-9]+)(-([0-9]+)-([a-z0-9]+))?" GITVERSIONDETECT_VERSION_MATCH ${GITVERSIONDETECT_VERSION})
 set(GITVERSIONDETECT_VERSION_MAJOR ${CMAKE_MATCH_1})
 set(GITVERSIONDETECT_VERSION_MINOR ${CMAKE_MATCH_2})
 set(GITVERSIONDETECT_VERSION_PATCH ${CMAKE_MATCH_3})
