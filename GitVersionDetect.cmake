@@ -31,7 +31,7 @@ This will define the following variables:
 #]=======================================================================]
 
 # Requirements
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.5)
 find_package(Git)
 
 # Check if a git executable was found
